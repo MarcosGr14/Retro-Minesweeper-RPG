@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background-color: #2b2b2b; font-family: 'Press Start 2P', cursive;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; margin: 0; color: #ffffff; touch-action: manipulation;
+}
+
+.game-wrapper {
+    text-align: center; background: #3c3f41; padding: 25px;
+    border: 6px solid #1a1a1a; border-radius: 10px;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.5); max-width: 95vw; overflow-x: auto;
+}
+
+.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes shake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+.pixel-text { text-shadow: 2px 2px 0px #000; }
+.text-yellow { color: #f1c40f; font-size: 12px; margin: 15px 0; line-height: 1.5; }
+
+.btn {
+    font-family: 'Press Start 2P', cursive; background-color: #7289da;
+    border: 4px solid #ffffff; border-color: #aab8f0 #38467a #38467a #aab8f0;
+    padding: 8px; margin: 5px; color: white; font-size: 10px; cursor: pointer;
+}
+.btn:active { border-color: #38467a #aab8f0 #aab8f0 #38467a; transform: translateY(2px); }
+.btn-pause { background-color: #e67e22; border-color: #f3b584 #a05411 #a05411 #f3b584; }
+.btn-restart { background-color: #2ecc71; border-color: #8ce1a7 #1d8246 #1d8246 #8ce1a7; }
+.btn-radar { background-color: #9b59b6; border-color: #d2b4de #5b2c6f #5b2c6f #d2b4de; }
+
+/* NUEVO: ESTILOS PARA EL MENÚ DE OPCIONES */
+.options-menu { margin: 15px 0; font-size: 10px; color: #aab8f0; }
+.options-menu label { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+.options-menu input[type="checkbox"] { cursor: pointer; width: 15px; height: 15px; accent-color: #e74c3c; }
+
+.custom-menu { 
+    margin-top: 15px; 
+    display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px; 
+}
+.custom-menu input { 
+    width: 85px; font-family: 'Press Start 2P', cursive; font-size: 9px; 
+    text-align: center; padding: 10px 5px; background-color: #1a1a1a; 
+    color: #2ecc71; border: 3px solid #555; box-sizing: border-box;
+}
+.custom-menu input::placeholder { color: #888; }
+.custom-menu input:focus { outline: none; border-color: #7289da; }
+
+#hud, .powerups {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #1e1e1e; padding: 10px; border: 4px solid #000; margin-bottom: 10px; flex-wrap: wrap; gap: 5px;
+}
+.hud-box { background: #000; padding: 5px; border: 2px solid #555; font-size: 12px; display: flex; align-items: center; gap: 5px;}
+
+#board-container { position: relative; display: inline-block; border: 6px solid #1a1a1a; margin-top: 10px; }
+#board { display: grid; background-color: #1a1a1a; gap: 2px; }
+#pause-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 10;
+}
+
+.cell {
+    width: 30px; height: 30px; background-color: #4CAF50;
+    border-top: 4px solid #81C784; border-left: 4px solid #81C784; border-bottom: 4px solid #2E7D32; border-right: 4px solid #2E7D32;
+    box-sizing: border-box; display: flex; justify-content: center; align-items: center; font-size: 16px; cursor: pointer; user-select: none;
+}
+.cell.revealed { background-color: #5D4037; border: 2px solid #3E2723; box-shadow: inset 3px 3px 5px rgba(0,0,0,0.6); cursor: default; }
+.hidden { display: none !important; }
+
+.num-1 { color: #64B5F6; } .num-2 { color: #81C784; } .num-3 { color: #E57373; } .num-4 { color: #BA68C8; } .num-5 { color: #FFF176; }
+
+/* --- TODO EL CSS QUE YA TENÍAS VA ARRIBA DE ESTO --- */
+
+/* ESTILOS DEL MODAL Y ANIMACIONES */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(4px); /* Difumina el tablero de fondo */
+    display: flex; justify-content: center; align-items: center; z-index: 100;
+}
+
+.modal-content {
+    background-color: #2b2b2b; padding: 30px; text-align: center;
+    border: 6px solid #1a1a1a; border-radius: 10px;
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.8);
+    /* Animación de entrada "Pop-in" */
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal-icon { font-size: 60px; margin: 15px 0; display: inline-block; }
+.modal-buttons { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
+
+/* Efecto Rebote para el Trofeo */
+.icon-bounce { animation: bounce 1s infinite alternate; }
+
+/* Efecto Temblor para la Calavera */
+.icon-shake { animation: shakeModal 0.4s infinite; }
+
+@keyframes popIn {
+    0% { transform: scale(0.5) translateY(-50px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+
+@keyframes shakeModal {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    25% { transform: translate(-1px, -2px) rotate(-5deg); }
+    50% { transform: translate(-3px, 0px) rotate(5deg); }
+    75% { transform: translate(3px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -1px) rotate(0deg); }
+}

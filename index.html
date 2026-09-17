@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Minesweeper RPG</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👾</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-wrapper" id="game-wrapper">
+        <h1 class="pixel-text">BUSCAMINAS RPG</h1>
+        
+        <div class="menu">
+            <div>
+                <button class="btn" onclick="setupGame(9, 9, 10, 'Facil')">Nivel 1</button>
+                <button class="btn" onclick="setupGame(16, 16, 40, 'Medio')">Nivel 2</button>
+                <button class="btn" onclick="setupGame(16, 30, 99, 'Dificil')">Nivel 3</button>
+            </div>
+            
+            <div class="options-menu">
+                <label>
+                    <input type="checkbox" id="lives-toggle" checked> 
+                    Modo RPG (3 Vidas ❤️)
+                </label>
+            </div>
+
+            <div class="custom-menu">
+                <input type="number" id="c-rows" placeholder="Filas" min="5" max="30">
+                <input type="number" id="c-cols" placeholder="Cols" min="5" max="30">
+                <input type="number" id="c-mines" placeholder="Minas" min="1">
+                <button class="btn btn-restart" onclick="setupCustom()">Jugar</button>
+            </div>
+        </div>
+
+        <div id="hud" class="hidden">
+            <div class="hud-box">🚩 <span id="mines-left">000</span></div>
+            <div class="hud-box">❤️ <span id="lives">3</span></div>
+            <div class="hud-box" id="timer">⏱️ 000</div>
+            <div class="hud-box text-yellow">🏆 <span id="highscore">---</span></div>
+        </div>
+
+        <div class="powerups hidden" id="powerups-panel">
+            <button class="btn btn-pause" id="pause-btn" onclick="togglePause()">⏸️ PAUSA</button>
+            <button class="btn btn-radar" id="radar-btn" onclick="useRadar()">🔍 RADAR (1)</button>
+            <button class="btn" onclick="toggleSound()" id="sound-btn">🔊 SONIDO</button>
+        </div>
+
+        <div id="message" class="pixel-text text-yellow">Selecciona un nivel...</div>
+        
+        <div id="board-container" class="hidden">
+            <div id="board"></div>
+            <div id="pause-overlay" class="hidden pixel-text">PAUSADO</div>
+        </div>
+
+        <button id="restart-btn" class="btn btn-restart hidden" onclick="restartGame()">🔄 REINICIAR</button>
+    </div>
+
+    <!-- MODAL DE VICTORIA / DERROTA -->
+    <div id="game-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="modal-title" class="pixel-text"></h2>
+            <div id="modal-icon" class="modal-icon"></div>
+            <p id="modal-text" class="text-yellow"></p>
+            <div class="modal-buttons">
+                <button class="btn btn-restart" onclick="closeModal(); restartGame()">🔄 REINTENTAR</button>
+                <button id="next-level-btn" class="btn btn-radar hidden" onclick="closeModal(); goToNextLevel()">⏭️ SIGUIENTE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Librería externa para el efecto de Confeti 🎉 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
